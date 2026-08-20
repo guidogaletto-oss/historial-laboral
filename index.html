@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="./tokens/fonts/fonts.css" />
+<link rel="stylesheet" href="./tokens/colors_and_type.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<style>
+  body { margin: 0; background: #EDEEF2; font-family: 'Roboto', sans-serif; }
+  * { box-sizing: border-box; }
+  a { color: #2F3FC6; }
+  a:hover { color: #1D204E; }
+  input, textarea, select, button { font-family: 'Roboto', sans-serif; }
+  @keyframes drawerIn { from { transform: translateX(24px); opacity: 0 } to { transform: translateX(0); opacity: 1 } }
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes snackIn { from { transform: translate(-50%, 16px); opacity: 0 } to { transform: translate(-50%, 0); opacity: 1 } }
+  @keyframes snackBar { from { width: 100% } to { width: 0% } }
+  @keyframes revealIn { from { opacity: 0; transform: translateY(-6px); max-height: 0; margin-bottom: -8px } to { opacity: 1; transform: translateY(0); max-height: 320px; margin-bottom: 0 } }
+</style>
+</helmet>
+
+<div style="height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: stretch">
+
+  <div style="display: flex; align-items: center; gap: 12px; flex: none; padding: 10px 20px; background: #fff; border-bottom: 1px solid #E9E9F4">
+    <span style="font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: #AAAABA; font-weight: 700">Historial laboral v5</span>
+    <div style="width: 1px; height: 20px; background: #E9E9F4"></div>
+    <button onClick="{{ goFull }}" style="{{ tabFullStyle }}">Con puesto cargado</button>
+    <button onClick="{{ goEmpty }}" style="{{ tabEmptyStyle }}">Sin puesto cargado</button>
+    <span style="margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #636271">
+      <i class="ti ti-hand-click" style="font-size: 16px"></i>
+      Probá el lápiz de la card de trabajo, “Agregar Puesto” y el menú de cada fila.
+    </span>
+  </div>
+
+  <div style="position: relative; flex: 1; min-height: 0; overflow: hidden; background: #FAFAFC; display: flex; flex-direction: column">
+
+    <div style="height: 64px; flex: none; display: flex; align-items: center; gap: 16px; padding: 0 24px; background: #fff; border-bottom: 1px solid #E9E9F4">
+      <i class="ti ti-arrow-left" style="font-size: 22px; color: #636271"></i>
+      <span style="font-size: 20px; font-weight: 700; color: #303036">[NombreUsuario]</span>
+      <span style="padding: 2px 10px; border-radius: 999px; background: #E7F6EC; color: #1E6D3B; font-size: 12px; font-weight: 500">Activado</span>
+      <button style="margin-left: auto; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 8px; border: 1px solid #DFE0E6; background: #fff; color: #303036; font-size: 14px; font-weight: 500">
+        Acciones sobre el usuario <i class="ti ti-chevron-down" style="font-size: 16px"></i>
+      </button>
+    </div>
+
+    <div style="display: flex; flex: 1; min-height: 0">
+      <div style="width: 264px; flex: none; padding: 16px 12px; background: #fff; display: flex; flex-direction: column; gap: 4px">
+        <div style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 8px; background: #F5F6F8; color: #303036; font-size: 15px; font-weight: 500">
+          <i class="ti ti-file-description" style="font-size: 20px"></i> Información
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 8px; color: #636271; font-size: 15px">
+          <i class="ti ti-users" style="font-size: 20px"></i> Segmentación
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 8px; color: #636271; font-size: 15px">
+          <i class="ti ti-user-check" style="font-size: 20px"></i> Roles y permisos
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 8px; color: #636271; font-size: 15px">
+          <i class="ti ti-door-enter" style="font-size: 20px"></i> Onboarding
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 8px; color: #636271; font-size: 15px">
+          <i class="ti ti-clipboard-check" style="font-size: 20px"></i> Formularios y trámites
+        </div>
+      </div>
+
+      <div style="flex: 1; overflow-y: auto; padding: 32px 0 80px">
+        <div style="width: 100%; max-width: 1080px; padding: 0 24px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+          <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #303036">Información del perfil</h1>
+
+          <div style="background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 8px rgba(0,0,0,0.06)">
+            <div style="height: 260px; background: #C9D8DD url('uploads/fondo 2.jpg') center / cover no-repeat"></div>
+            <div style="padding: 0 28px 26px; display: flex; gap: 22px; align-items: flex-start">
+              <div style="position: relative; width: 156px; height: 156px; flex: none; margin-top: -48px">
+                <img src="https://i.pravatar.cc/312?img=13" alt="Juan Martín Pérez" style="width: 156px; height: 156px; border-radius: 999px; border: 5px solid #fff; object-fit: cover; display: block; filter: grayscale(1)" />
+                <span style="position: absolute; right: 6px; bottom: 6px; width: 36px; height: 36px; border-radius: 999px; background: #fff; border: 1px solid #E9E9F4; color: #636271; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 8px rgba(0,0,0,0.08)"><i class="ti ti-camera" style="font-size: 18px"></i></span>
+              </div>
+              <div style="padding-top: 22px; display: flex; flex-direction: column; gap: 5px">
+                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px">
+                  <span style="font-size: 22px; font-weight: 700; color: #303036">Juan Martín Pérez (Juanma)</span>
+                  <span style="padding: 2px 10px; border-radius: 999px; background: #E7F6EC; color: #1E6D3B; font-size: 12px; font-weight: 500">Activado</span>
+                </div>
+                <span style="font-size: 15px; color: #636271">{{ headerSubtitle }}</span>
+                <div style="display: flex; gap: 20px; font-size: 13px; color: #636271">
+                  <span style="display: flex; align-items: center; gap: 6px"><i class="ti ti-cake" style="font-size: 16px"></i> 10 de Febrero</span>
+                  <span style="display: flex; align-items: center; gap: 6px"><i class="ti ti-briefcase" style="font-size: 16px"></i> 1 año en la organización</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; padding: 24px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 20px">
+            <div style="display: flex; align-items: center">
+              <span style="font-size: 16px; font-weight: 700; color: #303036">Información básica</span>
+              <i class="ti ti-info-circle" style="font-size: 16px; color: #AAAABA; margin-left: 8px"></i>
+              <button style="margin-left: auto; width: 36px; height: 36px; border-radius: 8px; border: 1px solid #DFE0E6; background: #fff; color: #636271; display: flex; align-items: center; justify-content: center"><i class="ti ti-pencil" style="font-size: 18px"></i></button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 24px">
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Nombre *</span><span style="font-size: 15px; font-weight: 500; color: #303036">Juan Martín</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Apellido *</span><span style="font-size: 15px; font-weight: 500; color: #303036">Pérez</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Apodo</span><span style="font-size: 15px; font-weight: 500; color: #303036">Juanma</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Usuario *</span><span style="font-size: 15px; font-weight: 500; color: #303036">JMP1234</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Email</span><a href="#" style="font-size: 15px; font-weight: 500">jmperez@nombreempresa.com</a></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Celular</span><span style="font-size: 15px; font-weight: 500; color: #303036">+54 1123456789</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Fecha de nacimiento</span><span style="font-size: 15px; font-weight: 500; color: #303036">12/01/1994</span><span style="font-size: 12px; color: #AAAABA">34 años</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #AAAABA">Fecha de contratación</span><span style="font-size: 15px; font-weight: 500; color: #303036">12/12/2024</span><span style="font-size: 12px; color: #AAAABA">1 año y 7 meses</span></div>
+            </div>
+          </div>
+
+          <div style="background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; padding: 24px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 20px">
+
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span style="font-size: 16px; font-weight: 700; color: #303036">Trabajo</span>
+              <sc-if value="{{ noPuesto }}" hint-placeholder-val="{{ false }}">
+                <span style="flex: none; white-space: nowrap; display: flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; background: #FEF6E7; border: 1px solid #F7E2B0; color: #8A5B00; font-size: 12px; font-weight: 500"><i class="ti ti-briefcase-off" style="font-size: 14px"></i> {{ noPuestoLabel }}</span>
+              </sc-if>
+            </div>
+
+            <div style="background: #F5F6F8; border-radius: 12px; padding: 16px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr 44px; align-items: center; gap: 20px">
+              <div style="display: flex; align-items: center; gap: 12px">
+                <sc-if value="{{ vigente.jefeHas }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ vigente.jefeAvatar }}" alt="" style="width: 36px; height: 36px; flex: none; border-radius: 999px; object-fit: cover" />
+                </sc-if>
+                <span style="display: flex; flex-direction: column; gap: 2px">
+                  <span style="font-size: 12px; color: #AAAABA">Jefe directo</span>
+                  <span style="font-size: 15px; font-weight: 500; color: #303036">{{ vigente.jefe }}</span>
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px">
+                <sc-if value="{{ vigente.aprobadorHas }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ vigente.aprobadorAvatar }}" alt="" style="width: 36px; height: 36px; flex: none; border-radius: 999px; object-fit: cover" />
+                </sc-if>
+                <span style="display: flex; flex-direction: column; gap: 2px">
+                  <span style="font-size: 12px; color: #AAAABA">Aprobador designado</span>
+                  <span style="font-size: 15px; font-weight: 500; color: #303036">{{ vigente.aprobador }}</span>
+                </span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <span style="font-size: 12px; color: #AAAABA">Departamento</span>
+                <span style="font-size: 15px; font-weight: 500; color: #303036">{{ vigente.departamento }}</span>
+              </div>
+              <button onClick="{{ openOrgDrawer }}" title="Editar datos laborales" style="width: 40px; height: 40px; border-radius: 999px; border: none; background: #fff; color: #636271; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 1px 8px rgba(0,0,0,0.08)" style-hover="color: #2F3FC6">
+                <i class="ti ti-pencil" style="font-size: 18px"></i>
+              </button>
+            </div>
+
+            <sc-if value="{{ orgInherited }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: -12px; display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border-radius: 8px; background: #EAF6FD; border-left: 4px solid #37A5DE; color: #0E4C6E; font-size: 13px">
+                <i class="ti ti-info-circle" style="font-size: 18px; flex: none"></i>
+                <span>Estos datos se heredaron del último puesto del colaborador en la organización. Podés editarlos o quitarlos desde el lápiz.</span>
+              </div>
+            </sc-if>
+
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; align-items: center; gap: 12px">
+                <span style="font-size: 14px; font-weight: 700; color: #303036">Historial laboral</span>
+                <button onClick="{{ openAddDrawer }}" style="margin-left: auto; display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 8px; border: 1px solid #496BE3; background: #fff; color: #2F3FC6; font-size: 14px; font-weight: 500; cursor: pointer">Agregar Puesto <i class="ti ti-plus" style="font-size: 16px"></i></button>
+              </div>
+
+              <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ true }}">
+                <div style="border: 1px solid #E9E9F4; border-radius: 12px">
+                  <div style="display: grid; grid-template-columns: 1fr 116px 150px 150px 150px 120px 48px; background: #F5F6F8; border-bottom: 1px solid #E9E9F4; border-radius: 12px 12px 0 0">
+                    <div style="padding: 14px 16px; font-size: 13px; font-weight: 500; color: #636271">Puesto</div>
+                    <div style="padding: 14px 12px; font-size: 13px; font-weight: 500; color: #636271">Fecha de inicio</div>
+                    <div style="padding: 14px 12px; font-size: 13px; font-weight: 500; color: #636271">Departamento</div>
+                    <div style="padding: 14px 12px; font-size: 13px; font-weight: 500; color: #636271">Jefe directo</div>
+                    <div style="padding: 14px 12px; font-size: 13px; font-weight: 500; color: #636271">Aprobador</div>
+                    <div style="padding: 14px 12px; font-size: 13px; font-weight: 500; color: #636271; display: flex; align-items: center; gap: 4px">Fin <span onMouseEnter="{{ onHeadFinEnter }}" onMouseLeave="{{ onHeadFinLeave }}" style="position: relative; display: flex; align-items: center"><i class="ti ti-lock" style="font-size: 13px; color: #AAAABA"></i><sc-if value="{{ headFinTip }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 30; width: 300px; padding: 12px 16px; background: #34373C; color: #fff; font-size: 14px; font-weight: 400; line-height: 1.5; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); animation: fadeIn 120ms ease" style-before="content: ''; position: absolute; bottom: 100%; left: 50%; margin-left: -7px; border: 7px solid transparent; border-bottom-color: #34373C; border-top-width: 0">La fecha de fin se autocalcula en relación a la fecha de inicio del puesto siguiente</span></sc-if></span></div>
+                    <div></div>
+                  </div>
+                  <sc-for list="{{ rows }}" as="row" hint-placeholder-count="3">
+                    <div>
+                    <sc-if value="{{ row.isGap }}" hint-placeholder-val="{{ false }}">
+                      <div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #FAFAFC; border-bottom: 1px solid #F0F0F5; color: #636271; font-size: 13px">
+                        <i class="ti ti-circle-dashed" style="font-size: 18px; color: #AAAABA"></i>
+                        <span style="font-weight: 500; color: #636271">Sin puesto asignado</span>
+                        <span style="color: #AAAABA">{{ row.gapDesde }} – {{ row.gapHasta }} · {{ row.gapDur }}</span>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ row.isRow }}" hint-placeholder-val="{{ true }}">
+                    <div style="display: grid; grid-template-columns: 1fr 116px 150px 150px 150px 120px 48px; border-bottom: 1px solid #F0F0F5; align-items: center">
+                      <div style="padding: 14px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+                        <span style="font-size: 15px; font-weight: 500; color: #303036">{{ row.puesto }}</span>
+                        <sc-if value="{{ row.isActual }}" hint-placeholder-val="{{ true }}">
+                          <span style="padding: 2px 10px; border-radius: 999px; background: #F1F4FD; color: #2F3FC6; font-size: 12px; font-weight: 500">Actual</span>
+                        </sc-if>
+                        <sc-if value="{{ row.isProximo }}" hint-placeholder-val="{{ false }}">
+                          <span style="padding: 2px 10px; border-radius: 999px; background: #F3EDFD; color: #6B3FC6; font-size: 12px; font-weight: 500">Próximo</span>
+                        </sc-if>
+                        <sc-if value="{{ row.finishesSoon }}" hint-placeholder-val="{{ false }}">
+                          <span style="display: flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; background: #FEF6E7; color: #8A5B00; font-size: 12px; font-weight: 500"><i class="ti ti-clock-hour-4" style="font-size: 13px"></i> Finaliza el {{ row.fin }}</span>
+                        </sc-if>
+                      </div>
+                      <div style="padding: 14px 12px; font-size: 14px; color: #636271">{{ row.inicio }}</div>
+                      <div style="padding: 14px 12px; font-size: 14px; color: #636271">{{ row.departamento }}</div>
+                      <div style="padding: 12px; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #303036; font-weight: 500">
+                        <img src="{{ row.jefeAvatar }}" alt="" style="width: 26px; height: 26px; flex: none; border-radius: 999px; object-fit: cover" />
+                        <span>{{ row.jefe }}</span>
+                      </div>
+                      <div style="padding: 12px; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #303036; font-weight: 500">
+                        <img src="{{ row.aprobadorAvatar }}" alt="" style="width: 26px; height: 26px; flex: none; border-radius: 999px; object-fit: cover" />
+                        <span>{{ row.aprobador }}</span>
+                      </div>
+                      <div onMouseEnter="{{ row.onFinEnter }}" onMouseLeave="{{ row.onFinLeave }}" style="position: relative; padding: 14px 12px; font-size: 14px; color: #AAAABA">
+                        {{ row.fin }}
+                        <sc-if value="{{ row.finTip }}" hint-placeholder-val="{{ false }}">
+                          <span style="position: absolute; top: calc(100% - 4px); left: 50%; transform: translateX(-50%); z-index: 30; width: 300px; padding: 12px 16px; background: #34373C; color: #fff; font-size: 14px; line-height: 1.5; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); animation: fadeIn 120ms ease" style-before="content: ''; position: absolute; bottom: 100%; left: 50%; margin-left: -7px; border: 7px solid transparent; border-bottom-color: #34373C; border-top-width: 0">La fecha de fin se autocalcula en relación a la fecha de inicio del puesto siguiente</span>
+                        </sc-if>
+                      </div>
+                      <div style="position: relative; display: flex; justify-content: center">
+                        <button data-pop="1" onClick="{{ row.onMenu }}" style="width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent; color: #636271; cursor: pointer"><i class="ti ti-dots-vertical" style="font-size: 18px"></i></button>
+                        <sc-if value="{{ row.menuOpen }}" hint-placeholder-val="{{ false }}">
+                          <div onClick="{{ closeMenus }}" style="position: fixed; inset: 0; z-index: 19; background: transparent"></div>
+                          <div data-pop="1" style="position: absolute; top: 36px; right: 0; z-index: 20; width: 210px; padding: 8px; background: #fff; border: 1px solid #E9E9F4; border-radius: 12px; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); display: flex; flex-direction: column; animation: fadeIn 120ms ease">
+                            <button onClick="{{ row.onDetail }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: none; background: transparent; border-radius: 8px; font-size: 14px; color: #303036; cursor: pointer; text-align: left" style-hover="background: #F5F6F8">
+                              <i class="ti ti-file-description" style="font-size: 18px"></i> Historial de cambios
+                            </button>
+                            <button onClick="{{ row.onEdit }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: none; background: transparent; border-radius: 8px; font-size: 14px; color: #303036; cursor: pointer; text-align: left" style-hover="background: #F5F6F8">
+                              <i class="ti ti-pencil" style="font-size: 18px"></i> Editar
+                            </button>
+                            <button onClick="{{ row.onDelete }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: none; background: transparent; border-radius: 8px; font-size: 14px; color: #C0392B; cursor: pointer; text-align: left" style-hover="background: #FDECEA">
+                              <i class="ti ti-trash" style="font-size: 18px"></i> Eliminar
+                            </button>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+                    </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="border: 1px solid #E9E9F4; border-radius: 12px; padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+                  <span style="width: 36px; height: 36px; border-radius: 999px; background: #F1F4FD; color: #2F3FC6; display: flex; align-items: center; justify-content: center; margin-bottom: 6px"><i class="ti ti-info-circle" style="font-size: 20px"></i></span>
+                  <span style="font-size: 16px; font-weight: 700; color: #303036">Aún no hay información sobre el historial del colaborador</span>
+                  <span style="font-size: 13px; color: #636271">Haz clic en el botón “+” para agregar un puesto.</span>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <sc-if value="{{ overlayOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeAll }}" style="position: absolute; inset: 0; background: rgba(28,28,28,0.45); animation: fadeIn 150ms ease"></div>
+    </sc-if>
+
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; top: 0; right: 0; width: 620px; height: 100%; background: #fff; display: flex; flex-direction: column; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); animation: drawerIn 250ms cubic-bezier(0.2,0,0,1)">
+        <div style="display: flex; align-items: center; padding: 24px; border-bottom: 1px solid #E9E9F4">
+          <span style="font-size: 18px; font-weight: 700; color: #303036">{{ formTitle }}</span>
+          <button onClick="{{ closeAll }}" style="margin-left: auto; width: 32px; height: 32px; border: none; background: transparent; color: #636271; cursor: pointer"><i class="ti ti-x" style="font-size: 20px"></i></button>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+
+          <div style="background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+                <label style="font-size: 13px; font-weight: 700; color: #303036">Puesto *</label>
+                <select value="{{ form.puesto }}" onChange="{{ setPuesto }}" style="{{ puestoFieldStyle }}">
+                  <option value="">Seleccionar</option>
+                  <option value="Sr. Product Designer">Sr. Product Designer</option>
+                  <option value="Product Designer">Product Designer</option>
+                  <option value="Líder Técnico">Líder Técnico</option>
+                  <option value="Analista de Diseño">Analista de Diseño</option>
+                  <option value="Product Manager">Product Manager</option>
+                </select>
+                <sc-if value="{{ errPuesto }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size: 12px; color: #C0392B">Seleccioná un puesto para continuar.</span>
+                </sc-if>
+              </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label style="font-size: 13px; font-weight: 700; color: #303036">Fecha de inicio *</label>
+              <div style="position: relative">
+                <button data-pop="1" onClick="{{ openCal }}" style="{{ inicioFieldStyle }}">
+                  <span>{{ inicioLabel }}</span>
+                  <i class="ti ti-calendar" style="font-size: 18px; color: #636271"></i>
+                </button>
+                <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
+                  <div data-pop="1" style="{{ calPopStyle }}">
+                    <div style="padding: 18px 20px 12px; display: flex; flex-direction: column; gap: 14px">
+                      <div style="display: flex; align-items: center">
+                        <button onClick="{{ calPrev }}" style="width: 32px; height: 32px; border: none; background: transparent; color: #1D204E; cursor: pointer; border-radius: 8px" style-hover="background: #F1F4FD"><i class="ti ti-chevron-left" style="font-size: 20px"></i></button>
+                        <button data-pop="1" onClick="{{ toggleYearPick }}" style="{{ calLabelStyle }}" style-hover="background: #F1F4FD">{{ calMonthLabel }} <i class="{{ calLabelIcon }}" style="font-size: 16px"></i></button>
+                        <button onClick="{{ calNext }}" style="width: 32px; height: 32px; border: none; background: transparent; color: #1D204E; cursor: pointer; border-radius: 8px" style-hover="background: #F1F4FD"><i class="ti ti-chevron-right" style="font-size: 20px"></i></button>
+                      </div>
+                      <sc-if value="{{ calDaysView }}" hint-placeholder-val="{{ true }}">
+                        <div style="display: flex; flex-direction: column; gap: 14px">
+                          <div style="display: grid; grid-template-columns: repeat(7, 1fr); padding-bottom: 10px; border-bottom: 1px solid #E9E9F4">
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">D</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">L</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">M</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">M</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">J</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">V</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">S</span>
+                          </div>
+                          <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px">
+                            <sc-for list="{{ calCells }}" as="c" hint-placeholder-count="35">
+                              <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+                            </sc-for>
+                          </div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ calYearView }}" hint-placeholder-val="{{ false }}">
+                        <div ref="{{ yearGridRef }}" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; height: 184px; overflow-y: auto; padding: 4px 2px 2px">
+                          <sc-for list="{{ calYears }}" as="y" hint-placeholder-count="16">
+                            <button onClick="{{ y.onClick }}" style="{{ y.style }}">{{ y.label }}</button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ errInicio }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 12px; color: #C0392B">Ingresá la fecha de inicio del puesto.</span>
+              </sc-if>
+              <sc-if value="{{ showAutoHint }}" hint-placeholder-val="{{ true }}">
+                <span style="font-size: 12px; color: #636271">La fecha de fin se autocalcula con la fecha de inicio del puesto siguiente.</span>
+              </sc-if>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <button onClick="{{ toggleTieneFin }}" style="display: flex; align-items: center; gap: 10px; padding: 0; border: none; background: transparent; cursor: pointer; text-align: left">
+                <span style="{{ checkBoxStyle }}">
+                  <sc-if value="{{ form.tieneFin }}" hint-placeholder-val="{{ false }}"><i class="ti ti-check" style="font-size: 15px; color: #fff"></i></sc-if>
+                </span>
+                <span style="font-size: 14px; font-weight: 500; color: #303036">Tiene fecha de fin</span>
+              </button>
+
+              <sc-if value="{{ form.tieneFin }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 6px; animation: fadeIn 200ms ease">
+                  <label style="font-size: 13px; font-weight: 700; color: #303036">Fecha de fin *</label>
+                  <div style="position: relative">
+                    <button data-pop="1" onClick="{{ openCalFin }}" style="{{ finFieldStyle }}">
+                      <span>{{ finLabel }}</span>
+                      <i class="ti ti-calendar" style="font-size: 18px; color: #636271"></i>
+                    </button>
+                    <sc-if value="{{ calOpenFin }}" hint-placeholder-val="{{ false }}">
+                      <div data-pop="1" style="{{ calPopStyle }}">
+                        <div style="padding: 18px 20px 12px; display: flex; flex-direction: column; gap: 14px">
+                          <div style="display: flex; align-items: center">
+                            <button onClick="{{ calPrev }}" style="width: 32px; height: 32px; border: none; background: transparent; color: #1D204E; cursor: pointer; border-radius: 8px" style-hover="background: #F1F4FD"><i class="ti ti-chevron-left" style="font-size: 20px"></i></button>
+                            <button data-pop="1" onClick="{{ toggleYearPick }}" style="{{ calLabelStyle }}" style-hover="background: #F1F4FD">{{ calMonthLabel }} <i class="{{ calLabelIcon }}" style="font-size: 16px"></i></button>
+                            <button onClick="{{ calNext }}" style="width: 32px; height: 32px; border: none; background: transparent; color: #1D204E; cursor: pointer; border-radius: 8px" style-hover="background: #F1F4FD"><i class="ti ti-chevron-right" style="font-size: 20px"></i></button>
+                          </div>
+                          <sc-if value="{{ calDaysView }}" hint-placeholder-val="{{ true }}">
+                        <div style="display: flex; flex-direction: column; gap: 14px">
+                          <div style="display: grid; grid-template-columns: repeat(7, 1fr); padding-bottom: 10px; border-bottom: 1px solid #E9E9F4">
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">D</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">L</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">M</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">M</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">J</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">V</span>
+                            <span style="text-align: center; font-size: 14px; font-weight: 700; color: #2F3FC6">S</span>
+                          </div>
+                          <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px">
+                            <sc-for list="{{ calCells }}" as="c" hint-placeholder-count="35">
+                              <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+                            </sc-for>
+                          </div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ calYearView }}" hint-placeholder-val="{{ false }}">
+                        <div ref="{{ yearGridRef }}" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; height: 184px; overflow-y: auto; padding: 4px 2px 2px">
+                          <sc-for list="{{ calYears }}" as="y" hint-placeholder-count="16">
+                            <button onClick="{{ y.onClick }}" style="{{ y.style }}">{{ y.label }}</button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                  <sc-if value="{{ errFin }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size: 12px; color: #C0392B">{{ errFinMsg }}</span>
+                  </sc-if>
+                  <span style="font-size: 12px; color: #636271">Si más adelante se carga un puesto que inicia antes de esta fecha, el cierre se ajusta a ese inicio.</span>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label style="font-size: 13px; font-weight: 700; color: #303036">Departamento (opcional)</label>
+              <select value="{{ form.departamento }}" onChange="{{ setDepto }}" style="height: 44px; padding: 0 12px; border: 1px solid #E1E1EB; border-radius: 8px; background: #fff; font-size: 15px; color: #303036">
+                <option value="">Sin asignar</option>
+                <option value="Ingeniería">Ingeniería</option>
+                <option value="Producto">Producto</option>
+                <option value="Diseño">Diseño</option>
+                <option value="Comercial">Comercial</option>
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label style="font-size: 13px; font-weight: 700; color: #303036">Jefe directo (opcional)</label>
+              <div style="position: relative">
+                <button data-pop="1" onClick="{{ openUserJefe }}" style="{{ jefeFieldStyle }}">
+                  <span>{{ jefeLabel }}</span>
+                  <i class="ti ti-chevron-down" style="font-size: 18px; color: #636271"></i>
+                </button>
+                <sc-if value="{{ userOpenJefe }}" hint-placeholder-val="{{ false }}">
+                  <div data-pop="1" style="position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 45; background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); padding: 12px; animation: fadeIn 120ms ease">
+                    <div style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border: 1px solid #E1E1EB; border-radius: 10px">
+                      <i class="ti ti-search" style="font-size: 18px; color: #636271"></i>
+                      <input value="{{ userQuery }}" onChange="{{ setUserQuery }}" placeholder="Busca un usuario..." style="flex: 1; min-width: 0; border: none; outline: none; background: transparent; font-size: 15px; color: #303036" />
+                    </div>
+                    <div style="margin-top: 10px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column">
+                      <sc-for list="{{ userResults }}" as="u" hint-placeholder-count="4">
+                        <button onClick="{{ u.onClick }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 10px; border: none; background: transparent; border-radius: 10px; cursor: pointer" style-hover="background: #F5F6F8">
+                          <img src="{{ u.avatar }}" alt="" style="width: 36px; height: 36px; flex: none; border-radius: 999px; object-fit: cover; filter: grayscale(1)" />
+                          <span style="display: flex; flex-direction: column; gap: 1px; text-align: left">
+                            <span style="font-size: 15px; font-weight: 500; color: #303036">{{ u.name }}</span>
+                            <span style="font-size: 13px; color: #636271">{{ u.email }}</span>
+                          </span>
+                          <span style="margin-left: auto; flex: none; padding: 2px 12px; border-radius: 999px; border: 1px solid #BFE3CB; background: #F1FAF4; color: #1E6D3B; font-size: 13px">Activo</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                    <button onClick="{{ clearUser }}" style="width: 100%; margin-top: 6px; padding: 10px; border: none; border-top: 1px solid #E9E9F4; background: transparent; color: #2F3FC6; font-size: 14px; font-weight: 500; cursor: pointer">Sin asignar</button>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label style="font-size: 13px; font-weight: 700; color: #303036">Aprobador designado (opcional)</label>
+              <div style="position: relative">
+                <button data-pop="1" onClick="{{ openUserAprobador }}" style="{{ aprobadorFieldStyle }}">
+                  <span>{{ aprobadorLabel }}</span>
+                  <i class="ti ti-chevron-down" style="font-size: 18px; color: #636271"></i>
+                </button>
+                <sc-if value="{{ userOpenAprobador }}" hint-placeholder-val="{{ false }}">
+                  <div data-pop="1" style="position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 45; background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); padding: 12px; animation: fadeIn 120ms ease">
+                    <div style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border: 1px solid #E1E1EB; border-radius: 10px">
+                      <i class="ti ti-search" style="font-size: 18px; color: #636271"></i>
+                      <input value="{{ userQuery }}" onChange="{{ setUserQuery }}" placeholder="Busca un usuario..." style="flex: 1; min-width: 0; border: none; outline: none; background: transparent; font-size: 15px; color: #303036" />
+                    </div>
+                    <div style="margin-top: 10px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column">
+                      <sc-for list="{{ userResults }}" as="u" hint-placeholder-count="4">
+                        <button onClick="{{ u.onClick }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 10px; border: none; background: transparent; border-radius: 10px; cursor: pointer" style-hover="background: #F5F6F8">
+                          <img src="{{ u.avatar }}" alt="" style="width: 36px; height: 36px; flex: none; border-radius: 999px; object-fit: cover; filter: grayscale(1)" />
+                          <span style="display: flex; flex-direction: column; gap: 1px; text-align: left">
+                            <span style="font-size: 15px; font-weight: 500; color: #303036">{{ u.name }}</span>
+                            <span style="font-size: 13px; color: #636271">{{ u.email }}</span>
+                          </span>
+                          <span style="margin-left: auto; flex: none; padding: 2px 12px; border-radius: 999px; border: 1px solid #BFE3CB; background: #F1FAF4; color: #1E6D3B; font-size: 13px">Activo</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                    <button onClick="{{ clearUser }}" style="width: 100%; margin-top: 6px; padding: 10px; border: none; border-top: 1px solid #E9E9F4; background: transparent; color: #2F3FC6; font-size: 14px; font-weight: 500; cursor: pointer">Sin asignar</button>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+
+          <sc-if value="{{ showObs }}" hint-placeholder-val="{{ false }}">
+            <div style="flex: none; background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; animation: revealIn 280ms cubic-bezier(0.2,0,0,1)">
+              <label style="font-size: 13px; font-weight: 700; color: #303036">Observaciones (opcional)</label>
+              <textarea value="{{ form.obs }}" onChange="{{ setObs }}" placeholder="¿Quieres agregar alguna observación para esta modificación?" style="flex: none; height: 120px; min-height: 120px; padding: 12px 14px; border: 1px solid #E1E1EB; border-radius: 8px; background: #fff; font-size: 15px; resize: none; color: #303036"></textarea>
+              <span style="align-self: flex-end; font-size: 12px; color: #AAAABA">{{ obsCount }}/200</span>
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ formAlert }}" hint-placeholder-val="{{ false }}">
+          <div style="margin: 0 24px 16px; display: flex; gap: 12px; padding: 14px 16px; border-radius: 8px; background: #EAF6FD; border-left: 4px solid #37A5DE; align-items: flex-start; overflow: hidden; animation: revealIn 280ms cubic-bezier(0.2,0,0,1)">
+            <i class="ti ti-info-circle" style="font-size: 20px; color: #0E4C6E; flex: none"></i>
+            <span style="display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 14px; font-weight: 500; color: #0E4C6E">{{ formAlertTitle }}</span>
+              <span style="font-size: 13px; color: #17587C">{{ formAlertBody }}</span>
+            </span>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; gap: 16px; padding: 20px 24px; border-top: 1px solid #E9E9F4">
+          <button onClick="{{ closeAll }}" style="flex: 1; height: 48px; border-radius: 8px; border: none; background: transparent; color: #2F3FC6; font-size: 15px; font-weight: 500; cursor: pointer">Cancelar</button>
+          <button onClick="{{ saveForm }}" style="flex: 1; height: 48px; border-radius: 8px; border: none; background: #496BE3; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer">{{ saveLabel }}</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showOrg }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; top: 0; right: 0; width: 620px; height: 100%; background: #fff; display: flex; flex-direction: column; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); animation: drawerIn 250ms cubic-bezier(0.2,0,0,1)">
+        <div style="display: flex; align-items: center; padding: 24px; border-bottom: 1px solid #E9E9F4">
+          <span style="font-size: 18px; font-weight: 700; color: #303036">Editar datos laborales</span>
+          <button onClick="{{ closeAll }}" style="margin-left: auto; width: 32px; height: 32px; border: none; background: transparent; color: #636271; cursor: pointer"><i class="ti ti-x" style="font-size: 20px"></i></button>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+          <div style="background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+            <label style="font-size: 13px; font-weight: 700; color: #303036">Jefe directo</label>
+            <div style="position: relative">
+              <button data-pop="1" onClick="{{ openUserOrgJefe }}" style="{{ orgJefeFieldStyle }}">
+                <span>{{ orgJefeLabel }}</span>
+                <i class="ti ti-chevron-down" style="font-size: 18px; color: #636271"></i>
+              </button>
+              <sc-if value="{{ userOpenOrgJefe }}" hint-placeholder-val="{{ false }}">
+                <div data-pop="1" style="position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 45; background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); padding: 12px; animation: fadeIn 120ms ease">
+                  <div style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border: 1px solid #E1E1EB; border-radius: 10px">
+                    <i class="ti ti-search" style="font-size: 18px; color: #636271"></i>
+                    <input value="{{ userQuery }}" onChange="{{ setUserQuery }}" placeholder="Busca un usuario..." style="flex: 1; min-width: 0; border: none; outline: none; background: transparent; font-size: 15px; color: #303036" />
+                  </div>
+                  <div style="margin-top: 10px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column">
+                    <sc-for list="{{ userResults }}" as="u" hint-placeholder-count="4">
+                      <button onClick="{{ u.onClick }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 10px; border: none; background: transparent; border-radius: 10px; cursor: pointer" style-hover="background: #F5F6F8">
+                        <img src="{{ u.avatar }}" alt="" style="width: 36px; height: 36px; flex: none; border-radius: 999px; object-fit: cover; filter: grayscale(1)" />
+                        <span style="display: flex; flex-direction: column; gap: 1px; text-align: left">
+                          <span style="font-size: 15px; font-weight: 500; color: #303036">{{ u.name }}</span>
+                          <span style="font-size: 13px; color: #636271">{{ u.email }}</span>
+                        </span>
+                        <span style="margin-left: auto; flex: none; padding: 2px 12px; border-radius: 999px; border: 1px solid #BFE3CB; background: #F1FAF4; color: #1E6D3B; font-size: 13px">Activo</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ clearUser }}" style="width: 100%; margin-top: 6px; padding: 10px; border: none; border-top: 1px solid #E9E9F4; background: transparent; color: #2F3FC6; font-size: 14px; font-weight: 500; cursor: pointer">Sin asignar</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+            <label style="font-size: 13px; font-weight: 700; color: #303036">Aprobador designado</label>
+            <div style="position: relative">
+              <button data-pop="1" onClick="{{ openUserOrgAprobador }}" style="{{ orgAprobadorFieldStyle }}">
+                <span>{{ orgAprobadorLabel }}</span>
+                <i class="ti ti-chevron-down" style="font-size: 18px; color: #636271"></i>
+              </button>
+              <sc-if value="{{ userOpenOrgAprobador }}" hint-placeholder-val="{{ false }}">
+                <div data-pop="1" style="position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 45; background: #fff; border: 1px solid #E9E9F4; border-radius: 16px; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); padding: 12px; animation: fadeIn 120ms ease">
+                  <div style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border: 1px solid #E1E1EB; border-radius: 10px">
+                    <i class="ti ti-search" style="font-size: 18px; color: #636271"></i>
+                    <input value="{{ userQuery }}" onChange="{{ setUserQuery }}" placeholder="Busca un usuario..." style="flex: 1; min-width: 0; border: none; outline: none; background: transparent; font-size: 15px; color: #303036" />
+                  </div>
+                  <div style="margin-top: 10px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column">
+                    <sc-for list="{{ userResults }}" as="u" hint-placeholder-count="4">
+                      <button onClick="{{ u.onClick }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 10px; border: none; background: transparent; border-radius: 10px; cursor: pointer" style-hover="background: #F5F6F8">
+                        <img src="{{ u.avatar }}" alt="" style="width: 36px; height: 36px; flex: none; border-radius: 999px; object-fit: cover; filter: grayscale(1)" />
+                        <span style="display: flex; flex-direction: column; gap: 1px; text-align: left">
+                          <span style="font-size: 15px; font-weight: 500; color: #303036">{{ u.name }}</span>
+                          <span style="font-size: 13px; color: #636271">{{ u.email }}</span>
+                        </span>
+                        <span style="margin-left: auto; flex: none; padding: 2px 12px; border-radius: 999px; border: 1px solid #BFE3CB; background: #F1FAF4; color: #1E6D3B; font-size: 13px">Activo</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ clearUser }}" style="width: 100%; margin-top: 6px; padding: 10px; border: none; border-top: 1px solid #E9E9F4; background: transparent; color: #2F3FC6; font-size: 14px; font-weight: 500; cursor: pointer">Sin asignar</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+            <label style="font-size: 13px; font-weight: 700; color: #303036">Departamento</label>
+            <select value="{{ orgForm.departamento }}" onChange="{{ setOrgDepto }}" style="height: 44px; padding: 0 12px; border: 1px solid #E1E1EB; border-radius: 8px; background: #fff; font-size: 15px; color: #303036">
+              <option value="">Sin asignar</option>
+              <option value="Ingeniería">Ingeniería</option>
+              <option value="Producto">Producto</option>
+              <option value="Diseño">Diseño</option>
+              <option value="Comercial">Comercial</option>
+            </select>
+          </div>
+          <sc-if value="{{ showOrgObs }}" hint-placeholder-val="{{ false }}">
+            <div style="background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; animation: revealIn 280ms cubic-bezier(0.2,0,0,1)">
+              <label style="font-size: 13px; font-weight: 700; color: #303036">Observaciones (opcional)</label>
+              <textarea value="{{ orgForm.obs }}" onChange="{{ setOrgObs }}" placeholder="¿Quieres agregar alguna observación para esta modificación?" style="height: 120px; padding: 12px 14px; border: 1px solid #E1E1EB; border-radius: 8px; background: #fff; font-size: 15px; resize: none; color: #303036"></textarea>
+              <span style="align-self: flex-end; font-size: 12px; color: #AAAABA">{{ orgObsCount }}/200</span>
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ hasActual }}" hint-placeholder-val="{{ true }}">
+          <div style="margin: 0 24px 16px; display: flex; gap: 12px; padding: 14px 16px; border-radius: 8px; background: #EAF6FD; border-left: 4px solid #37A5DE; align-items: flex-start">
+            <i class="ti ti-info-circle" style="font-size: 20px; color: #0E4C6E; flex: none"></i>
+            <span style="display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 14px; font-weight: 500; color: #0E4C6E">Los cambios aplicados aquí impactarán en el puesto actual</span>
+              <span style="font-size: 13px; color: #17587C">Si modificas alguno de estos campos, se sobrescribirá esa información en su historial laboral.</span>
+            </span>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; gap: 16px; padding: 20px 24px; border-top: 1px solid #E9E9F4">
+          <button onClick="{{ closeAll }}" style="flex: 1; height: 48px; border-radius: 8px; border: none; background: transparent; color: #2F3FC6; font-size: 15px; font-weight: 500; cursor: pointer">Cancelar</button>
+          <button onClick="{{ saveOrg }}" style="flex: 1; height: 48px; border-radius: 8px; border: none; background: #496BE3; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer">Guardar</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showDetail }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; top: 0; right: 0; width: 620px; height: 100%; background: #fff; display: flex; flex-direction: column; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); animation: drawerIn 250ms cubic-bezier(0.2,0,0,1)">
+        <div style="display: flex; align-items: center; padding: 24px; border-bottom: 1px solid #E9E9F4">
+          <span style="font-size: 18px; font-weight: 700; color: #303036">Detalle del puesto</span>
+          <button onClick="{{ closeAll }}" style="margin-left: auto; width: 32px; height: 32px; border: none; background: transparent; color: #636271; cursor: pointer"><i class="ti ti-x" style="font-size: 20px"></i></button>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 24px">
+          <div style="background: #F5F6F8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; align-items: flex-start">
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <span style="font-size: 16px; font-weight: 700; color: #303036">{{ detail.puesto }}</span>
+                <span style="font-size: 13px; color: #636271">{{ detail.periodo }}</span>
+              </div>
+              <span style="margin-left: auto; padding: 2px 10px; border-radius: 999px; background: #F1F4FD; color: #2F3FC6; font-size: 12px; font-weight: 500">{{ detail.estado }}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px">
+              <div style="display: flex; align-items: flex-start; gap: 8px">
+                <i class="ti ti-building" style="font-size: 18px; color: #636271; flex: none"></i>
+                <span style="display: flex; flex-direction: column"><span style="font-size: 13px; color: #636271">Área:</span><span style="font-size: 13px; color: #303036">{{ detail.departamento }}</span></span>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 8px">
+                <i class="ti ti-user-up" style="font-size: 18px; color: #636271; flex: none"></i>
+                <span style="display: flex; flex-direction: column"><span style="font-size: 13px; color: #636271">Jefe:</span><span style="font-size: 13px; color: #303036">{{ detail.jefe }}</span></span>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 8px">
+                <i class="ti ti-user-check" style="font-size: 18px; color: #636271; flex: none"></i>
+                <span style="display: flex; flex-direction: column"><span style="font-size: 13px; color: #636271">Aprobador:</span><span style="font-size: 13px; color: #303036">{{ detail.aprobador }}</span></span>
+              </div>
+            </div>
+          </div>
+          <span style="font-size: 15px; font-weight: 700; color: #303036">Historial de cambios</span>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <sc-for list="{{ detail.changes }}" as="chg" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: 24px 1fr; column-gap: 14px">
+                <div style="display: flex; flex-direction: column; align-items: center">
+                  <span style="width: 24px; height: 24px; border-radius: 999px; border: 2px solid #496BE3; color: #496BE3; display: flex; align-items: center; justify-content: center"><i class="ti ti-check" style="font-size: 14px"></i></span>
+                  <span style="flex: 1; width: 2px; background: #D6DFFA"></span>
+                </div>
+                <div style="padding-bottom: 24px; display: flex; flex-direction: column; gap: 4px">
+                  <div style="display: flex; align-items: center; gap: 10px">
+                    <span style="font-size: 14px; color: #AAAABA; text-decoration: line-through">{{ chg.from }}</span>
+                    <i class="ti ti-arrow-right" style="font-size: 16px; color: #636271"></i>
+                    <span style="font-size: 14px; font-weight: 500; color: #303036">{{ chg.to }}</span>
+                    <span style="margin-left: auto; flex: none; padding: 2px 10px; border-radius: 999px; background: #F1F4FD; color: #2F3FC6; font-size: 12px">{{ chg.tag }}</span>
+                  </div>
+                  <span style="font-size: 12px; color: #636271">{{ chg.meta }}</span>
+                  <sc-if value="{{ chg.obs }}" hint-placeholder-val="{{ true }}">
+                    <span style="font-size: 12px; color: #636271">Observaciones: {{ chg.obs }}</span>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding: 20px 24px; border-top: 1px solid #E9E9F4">
+          <button onClick="{{ closeAll }}" style="height: 44px; padding: 0 28px; border-radius: 8px; border: none; background: transparent; color: #2F3FC6; font-size: 15px; font-weight: 500; cursor: pointer">Cerrar</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showDelete }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 40px">
+        <div style="width: 540px; background: #fff; border-radius: 16px; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); display: flex; flex-direction: column; animation: fadeIn 180ms ease">
+          <div style="display: flex; align-items: flex-start; gap: 16px; padding: 24px 24px 0">
+            <span style="font-size: 18px; font-weight: 700; color: #303036">¿Estás seguro de que deseas eliminar el puesto?</span>
+            <button onClick="{{ closeAll }}" style="margin-left: auto; width: 32px; height: 32px; flex: none; border: none; background: transparent; color: #636271; cursor: pointer"><i class="ti ti-x" style="font-size: 20px"></i></button>
+          </div>
+          <div style="padding: 16px 24px 0; display: flex; flex-direction: column; gap: 16px">
+            <span style="font-size: 14px; color: #636271">Ten en cuenta que esta acción no se puede deshacer.</span>
+            <sc-if value="{{ delIsActual }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; gap: 12px; padding: 14px 16px; border-radius: 8px; background: #F3F1FE; border-left: 4px solid #6B5BE6; align-items: flex-start">
+                <i class="ti ti-bulb" style="font-size: 20px; color: #4B3FC6; flex: none"></i>
+                <span style="display: flex; flex-direction: column; gap: 2px">
+                  <span style="font-size: 14px; font-weight: 500; color: #322A8C">El colaborador quedará sin puesto vigente</span>
+                  <span style="font-size: 13px; color: #4B4795">El jefe directo, el aprobador y el departamento se conservan en la card de trabajo y podés editarlos desde el lápiz.</span>
+                </span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 12px; padding: 24px">
+            <button onClick="{{ closeAll }}" style="height: 44px; padding: 0 20px; border-radius: 8px; border: none; background: transparent; color: #303036; font-size: 15px; font-weight: 500; cursor: pointer">Cancelar</button>
+            <button onClick="{{ confirmDelete }}" style="height: 44px; padding: 0 20px; border-radius: 8px; border: none; background: #496BE3; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer">Eliminar puesto</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 60; width: 660px; border-radius: 8px; background: #303036; overflow: hidden; box-shadow: -1px 8px 16px rgba(170,170,186,0.45); animation: snackIn 200ms cubic-bezier(0.2,0,0,1)">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 20px">
+          <i class="ti ti-circle-check-filled" style="font-size: 22px; color: #34C759; flex: none"></i>
+          <span style="flex: 1; font-size: 14px; font-weight: 500; color: #fff">{{ toast }}</span>
+          <button onClick="{{ closeToast }}" style="width: 28px; height: 28px; flex: none; border: none; background: transparent; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 6px" style-hover="background: rgba(255,255,255,0.12)"><i class="ti ti-x" style="font-size: 18px"></i></button>
+        </div>
+        <div style="height: 3px; background: #34C759; animation: snackBar 3200ms linear forwards"></div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1480, &quot;height&quot;: 1100}}">
+const TODAY = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+function fmt(iso) {
+  if (!iso) return '—';
+  const p = iso.split('-');
+  return p[2] + '/' + p[1] + '/' + p[0];
+}
+function minusDay(iso) {
+  const dt = new Date(iso + 'T12:00:00');
+  dt.setDate(dt.getDate() - 1);
+  return dt.toISOString().slice(0, 10);
+}
+function plusDay(iso) {
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+function monthsBetween(a, b) {
+  const A = new Date(a + 'T12:00:00'), B = new Date(b + 'T12:00:00');
+  return Math.max(0, (B.getFullYear() - A.getFullYear()) * 12 + (B.getMonth() - A.getMonth()));
+}
+function dur(months) {
+  if (months < 1) return 'menos de 1 mes';
+  const y = Math.floor(months / 12), m = months % 12;
+  const parts = [];
+  if (y) parts.push(y + (y === 1 ? ' año' : ' años'));
+  if (m) parts.push(m + (m === 1 ? ' mes' : ' meses'));
+  return parts.join(' y ');
+}
+function fieldStyle(err) {
+  return 'height:44px;padding:0 12px;border-radius:8px;background:#fff;font-size:15px;color:#303036;border:1px solid ' + (err ? '#C0392B' : '#E1E1EB');
+}
+function avatarOf(name) {
+  if (!name || name === '—') return 'https://i.pravatar.cc/120?img=68';
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 70;
+  return 'https://i.pravatar.cc/120?img=' + (h + 1);
+}
+function ini(name) {
+  if (!name || name === '—') return '—';
+  return name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+}
+const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+const PEOPLE = [
+  { name: 'Sebastián Pérez', email: 'speres@humand.co' },
+  { name: 'Pedro Ruiz', email: 'pruiz@humand.co' },
+  { name: 'Camila Rossi', email: 'crossi@humand.co' },
+  { name: 'Federico Blanco', email: 'fblanco@humand.co' },
+  { name: 'Lucía Ferrer', email: 'lferrer@humand.co' },
+  { name: 'Martín Aguirre', email: 'maguirre@humand.co' },
+  { name: 'Sofía Bustos', email: 'sbustos@humand.co' },
+  { name: 'Nicolás Peralta', email: 'nperalta@humand.co' },
+  { name: 'Valentina Ocampo', email: 'vocampo@humand.co' },
+  { name: 'Tomás Iriarte', email: 'tiriarte@humand.co' },
+  { name: 'María Garay', email: 'mgaray@humand.co' },
+  { name: 'Victoria Pacin', email: 'vpacin@humand.co' },
+  { name: 'Sebastián Salgado', email: 'ssalgado@humand.co' },
+  { name: 'Mariana González', email: 'mgonzalez@humand.co' },
+  { name: 'Ryan Gsoling', email: 'rgsoling@humand.co' }
+];
+function selectStyle(err, empty) {
+  return 'width:100%;height:44px;padding:0 12px;border-radius:8px;background:#fff;font-size:15px;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;color:' +
+    (empty ? '#AAAABA' : '#303036') + ';border:1px solid ' + (err ? '#C0392B' : '#E1E1EB');
+}
+const SEED = [
+  { id: 10, puesto: 'Product Manager', inicio: '2026-11-02', departamento: 'Producto', jefe: 'Mariana González', aprobador: 'Victoria Pacin', obs: '' },
+  { id: 1, puesto: 'Sr. Product Designer', inicio: '2025-10-23', departamento: 'Ingeniería', jefe: 'Pedro Ruiz', aprobador: 'Victoria Pacin', obs: '' },
+  { id: 2, puesto: 'Product Designer', inicio: '2024-06-22', departamento: 'Diseño', jefe: 'Sebastián Pérez', aprobador: 'María Garay', obs: '' },
+  { id: 3, puesto: 'Analista de Diseño', inicio: '2024-01-11', departamento: 'Diseño', jefe: 'Sebastián Pérez', aprobador: 'María Garay', obs: '' }
+];
+const EMPTY_ORG = { departamento: '—', jefe: '—', aprobador: '—' };
+
+class Component extends DCLogic {
+  state = {
+    entries: [],
+    standalone: Object.assign({}, EMPTY_ORG),
+    view: 'empty',
+    vigencia: null,
+    menuId: null,
+    drawer: null,
+    editId: null,
+    form: null,
+    orig: null,
+    orgForm: null,
+    detailId: null,
+    del: false,
+    delId: null,
+    delWord: '',
+    delMode: 'gap',
+    notice: '',
+    toast: '',
+    submitted: false
+  };
+
+  sorted() {
+    return this.state.entries.slice().sort((a, b) => (a.inicio < b.inicio ? 1 : -1));
+  }
+  actualEntry() {
+    const v = this.state.vigencia;
+    const list = this.sorted();
+    if (v != null && v !== 'none') {
+      const pin = this.state.entries.find(e => e.id === v);
+      if (pin && pin.inicio <= TODAY) {
+        const i = list.findIndex(e => e.id === pin.id);
+        const f = this.finOf(list, i);
+        if (!f || f >= TODAY) return pin;
+      }
+    }
+    if (v === 'none') return null;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].inicio > TODAY) continue;
+      const fin = this.finOf(list, i);
+      return (!fin || fin >= TODAY) ? list[i] : null;
+    }
+    return null;
+  }
+  lastEntry() {
+    return this.sorted().find(e => e.inicio <= TODAY) || null;
+  }
+  baseOrg() {
+    const a = this.actualEntry();
+    if (a) return { departamento: a.departamento, jefe: a.jefe, aprobador: a.aprobador, inherited: false };
+    const s = this.state;
+    if (s.orgEdited) return Object.assign({}, s.standalone, { inherited: false });
+    const last = this.lastEntry();
+    if (last) return { departamento: last.departamento, jefe: last.jefe, aprobador: last.aprobador, inherited: true };
+    const st = s.standalone;
+    const val = x => !!(x && x !== '—' && x !== '-');
+    return Object.assign({}, st, { inherited: val(st.jefe) || val(st.aprobador) || val(st.departamento) });
+  }
+  finOf(list, i) {
+    const derived = i > 0 ? minusDay(list[i - 1].inicio) : null;
+    const f = list[i] && list[i].finFijo;
+    if (f) return derived && derived < f ? derived : f;
+    return derived;
+  }
+
+  showToast(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._toastT);
+    this._toastT = setTimeout(() => this.setState({ toast: '' }), 3200);
+  }
+
+  closeToast = () => { clearTimeout(this._toastT); this.setState({ toast: '' }); };
+
+  onDocDown = ev => {
+    if (ev.target.closest && ev.target.closest('[data-pop]')) return;
+    const s = this.state;
+    if (s.menuId || s.cal || s.userPick) this.setState({ menuId: null, cal: null, userPick: null });
+  };
+  bindDocDown() {
+    if (this._docBound) return;
+    this._docBound = true;
+    document.addEventListener('mousedown', this.onDocDown, true);
+  }
+  onAnyScroll = () => {
+    if (!this.state.cal || !this._calEl) return;
+    const r = this._calEl.getBoundingClientRect();
+    const c = this.state.calRect;
+    if (c && Math.abs(c.top - r.top) < 1 && Math.abs(c.left - r.left) < 1) return;
+    this.setState({ calRect: { left: r.left, top: r.top, bottom: r.bottom } });
+  };
+  componentDidMount() { this.bindDocDown(); document.addEventListener('scroll', this.onAnyScroll, true); }
+  componentWillUnmount() { document.removeEventListener('mousedown', this.onDocDown, true); document.removeEventListener('scroll', this.onAnyScroll, true); this._docBound = false; }
+
+  setMenu(id) { this.setState(s => ({ menuId: s.menuId === id ? null : id })); }
+  closeAll = () => this.setState({ drawer: null, del: false, closeAsk: false, menuId: null, delWord: '', detailId: null, cal: null, userPick: null });
+
+  goFull = () => this.setState({ entries: SEED.slice(), standalone: { departamento: '—', jefe: '—', aprobador: '—' }, orgEdited: false, view: 'full', vigencia: null, notice: '', drawer: null, del: false, closeAsk: false, menuId: null });
+  goEmpty = () => this.setState({ entries: [], standalone: Object.assign({}, EMPTY_ORG), orgEdited: false, view: 'empty', vigencia: null, notice: '', drawer: null, del: false, closeAsk: false, menuId: null });
+
+  openAddDrawer = () => {
+    const src = this.baseOrg();
+    const v = x => (x && x !== '—' && x !== '-' ? x : '');
+    this.setState({
+      drawer: 'add', menuId: null, del: false, closeAsk: false, editId: null, orig: null, cal: null, userPick: null,
+      form: { puesto: '', inicio: '', departamento: v(src.departamento), jefe: v(src.jefe), aprobador: v(src.aprobador), obs: '', tieneFin: false, fin: '' },
+      submitted: false
+    });
+  };
+
+  openEdit(id) {
+    const e = this.state.entries.find(x => x.id === id);
+    const v = x => (x && x !== '—' ? x : '');
+    const form = { puesto: e.puesto, inicio: e.inicio, departamento: v(e.departamento), jefe: v(e.jefe), aprobador: v(e.aprobador), obs: '', tieneFin: !!e.finFijo, fin: e.finFijo || '' };
+    this.setState({ drawer: 'edit', menuId: null, editId: id, orig: form, form: Object.assign({}, form), submitted: false, cal: null, userPick: null });
+  }
+
+  openOrgDrawer = () => {
+    const a = this.actualEntry();
+    const src = a || this.state.standalone;
+    const v = x => (x && x !== '—' ? x : '');
+    const g = { departamento: v(src.departamento), jefe: v(src.jefe), aprobador: v(src.aprobador), obs: '' };
+    this.setState({ drawer: 'org', menuId: null, orgForm: g, orgOrig: Object.assign({}, g) });
+  };
+
+  field(key) {
+    return ev => {
+      const val = ev.target.value;
+      this.setState(s => ({ form: Object.assign({}, s.form, { [key]: val }) }));
+    };
+  }
+  orgField(key) {
+    return ev => {
+      const val = ev.target.value;
+      this.setState(s => ({ orgForm: Object.assign({}, s.orgForm, { [key]: val }) }));
+    };
+  }
+
+  saveForm = () => {
+    const f = this.state.form;
+    this.setState({ submitted: false });
+    const finBad = f.tieneFin && (!f.fin || f.fin <= f.inicio);
+    if (!f.puesto || !f.inicio || finBad) { this.setState({ submitted: true }); return; }
+    const clean = k => (f[k] && f[k].trim() ? f[k].trim() : '—');
+    const payload = { puesto: f.puesto.trim(), inicio: f.inicio, departamento: clean('departamento'), jefe: clean('jefe'), aprobador: clean('aprobador'), obs: f.obs, finFijo: f.tieneFin && f.fin ? f.fin : null };
+    if (this.state.editId != null) {
+      const id = this.state.editId;
+      this.setState(s => ({
+        entries: s.entries.map(e => (e.id === id ? Object.assign({}, e, payload) : e)),
+        vigencia: null,
+        drawer: null,
+        notice: ''
+      }));
+      this.showToast('Puesto editado correctamente');
+    } else {
+      this.setState(s => ({
+        entries: s.entries.concat([Object.assign({ id: Date.now() }, payload)]),
+        vigencia: null,
+        drawer: null,
+        notice: ''
+      }));
+      this.showToast('Puesto agregado correctamente');
+    }
+  };
+
+  saveOrg = () => {
+    const g = this.state.orgForm;
+    const clean = k => (g[k] && g[k].trim() ? g[k].trim() : '—');
+    const patch = { departamento: clean('departamento'), jefe: clean('jefe'), aprobador: clean('aprobador') };
+    const a = this.actualEntry();
+    if (a) {
+      this.setState(s => ({
+        entries: s.entries.map(e => (e.id === a.id ? Object.assign({}, e, patch) : e)),
+        drawer: null,
+        notice: ''
+      }));
+      this.showToast('Datos laborales actualizados correctamente');
+    } else {
+      this.setState({ standalone: patch, orgEdited: true, drawer: null, notice: '' });
+      this.showToast('Datos laborales actualizados correctamente');
+    }
+  };
+
+  askDelete(id) { this.setState({ del: true, delId: id, menuId: null, delWord: '', delMode: 'gap', cal: null }); }
+  setDelMode = mode => this.setState({ delMode: mode });
+  setDelWord = ev => this.setState({ delWord: ev.target.value });
+
+  confirmDelete = () => {
+    if (this.state.delMode === 'new') { this.doDelete(); this.openAddDrawer(); return; }
+    this.doDelete();
+  };
+
+  doDelete = () => {
+    const id = this.state.delId;
+    const e = this.state.entries.find(x => x.id === id);
+    const cur = this.actualEntry();
+    const wasActual = !!(cur && cur.id === id);
+    const carry = { departamento: e.departamento, jefe: e.jefe, aprobador: e.aprobador };
+    const rest = this.state.entries.filter(x => x.id !== id);
+    const closeIso = minusDay(e.inicio);
+    const prev = rest.filter(x => x.inicio <= TODAY).sort((a, b) => (a.inicio < b.inicio ? 1 : -1))[0];
+    const upcoming = rest.filter(x => x.inicio > TODAY).sort((a, b) => (a.inicio > b.inicio ? 1 : -1))[0];
+    const mode = this.state.delMode || 'gap';
+
+    if (wasActual && prev && mode === 'extend') {
+      this.setState({
+        entries: rest.map(x => (x.id === prev.id ? Object.assign({}, x, { finFijo: upcoming ? minusDay(upcoming.inicio) : null }) : x)),
+        vigencia: prev.id,
+        del: false,
+        notice: 'Se eliminó “' + e.puesto + '”. “' + prev.puesto + '” volvió a ser el puesto vigente' + (upcoming ? ' y su fecha de fin se recalculó con el inicio de “' + upcoming.puesto + '”.' : ' y quedó sin fecha de fin.')
+      });
+      this.showToast('Puesto eliminado y “' + prev.puesto + '” reabierto');
+      return;
+    }
+
+    if (wasActual && upcoming && mode === 'advance') {
+      this.setState({
+        entries: rest.map(x => {
+          if (x.id === upcoming.id) return Object.assign({}, x, { inicio: e.inicio });
+          if (prev && x.id === prev.id) return Object.assign({}, x, { finFijo: closeIso });
+          return x;
+        }),
+        vigencia: null,
+        del: false,
+        notice: 'Se eliminó “' + e.puesto + '”. “' + upcoming.puesto + '” se adelantó al ' + fmt(e.inicio) + ' y pasó a ser el puesto vigente.'
+      });
+      this.showToast('Puesto eliminado y “' + upcoming.puesto + '” adelantado');
+      return;
+    }
+
+    const closing = rest.filter(x => x.inicio < e.inicio).sort((a, b) => (a.inicio < b.inicio ? 1 : -1))[0];
+    this.setState(s => ({
+      entries: rest.map(x => (wasActual && closing && x.id === closing.id ? Object.assign({}, x, { finFijo: closeIso }) : x)),
+      standalone: wasActual ? carry : s.standalone,
+      vigencia: wasActual ? 'none' : s.vigencia,
+      del: false,
+      delWord: '',
+      notice: wasActual
+        ? (upcoming
+            ? 'Se eliminó “' + e.puesto + '”. El colaborador queda sin puesto vigente hasta el inicio de “' + upcoming.puesto + '” (' + fmt(upcoming.inicio) + '). El tramo sin puesto asignado se muestra en el historial.'
+            : 'Se eliminó “' + e.puesto + '”. El colaborador queda sin puesto vigente: el jefe, el aprobador y el departamento se conservaron como datos independientes y podés editarlos desde la card de trabajo.')
+        : ''
+    }));
+    this.showToast('Puesto eliminado correctamente');
+  };
+
+  curCalValue(target, s) {
+    if (target === 'inicio') return (s.form && s.form.inicio) || '';
+    if (target === 'fin') return (s.form && s.form.fin) || '';
+    return s.closeDate || '';
+  }
+  openCalFor = (target, ev) => {
+    const el = ev && ev.currentTarget ? ev.currentTarget : null;
+    this._calEl = el;
+    const r = el ? el.getBoundingClientRect() : null;
+    this.setState(s => {
+      const cur = this.curCalValue(target, s);
+      return { cal: s.cal === target ? null : target, calMonth: (cur || TODAY).slice(0, 7), calSel: cur, userPick: null, calYearPick: false, calRect: r ? { left: r.left, top: r.top, bottom: r.bottom } : null };
+    });
+  };
+  openCal = ev => this.openCalFor('inicio', ev);
+  openCalFin = ev => this.openCalFor('fin', ev);
+  openCalClose = ev => this.openCalFor('close', ev);
+  calPopStyle() {
+    const r = this.state.calRect;
+    const h = this.state.calYearPick ? 300 : 380;
+    if (!r) return 'position:absolute;top:calc(100% + 8px);left:0;z-index:45;width:340px;background:#fff;border-radius:16px;box-shadow:-1px 8px 16px rgba(170,170,186,0.45);border:1px solid #E9E9F4;animation:fadeIn 120ms ease';
+    const vh = window.innerHeight || 900;
+    const below = r.bottom + 8;
+    const top = below + h <= vh - 12 ? below : Math.max(12, r.top - 8 - h);
+    return 'position:fixed;top:' + Math.round(top) + 'px;left:' + Math.round(r.left) + 'px;z-index:60;width:340px;background:#fff;border-radius:16px;box-shadow:-1px 8px 16px rgba(170,170,186,0.45);border:1px solid #E9E9F4;animation:fadeIn 120ms ease';
+  }
+
+  askClose(id) {
+    this.setState({ closeAsk: true, closeId: id, menuId: null, closeMode: 'hoy', closeDate: '', cal: null, del: false, drawer: null });
+  }
+  confirmClose = () => {
+    const s = this.state;
+    const e = s.entries.find(x => x.id === s.closeId);
+    if (!e) return;
+    const date = s.closeMode === 'fecha' ? s.closeDate : TODAY;
+    if (!date || date <= e.inicio) return;
+    const list = this.sorted();
+    const idx = list.findIndex(x => x.id === e.id);
+    const next = idx > 0 ? list[idx - 1] : null;
+    this.setState({
+      entries: s.entries.map(x => (x.id === e.id ? Object.assign({}, x, { finFijo: date }) : x)),
+      vigencia: null,
+      closeAsk: false,
+      notice: 'Se cerró “' + e.puesto + '” con fecha ' + fmt(date) + '.' +
+        (next ? ' Si “' + next.puesto + '” inicia antes, el cierre se ajusta a ese inicio.' : (date > TODAY ? ' El puesto sigue vigente hasta esa fecha.' : ' El colaborador queda sin puesto vigente.'))
+    });
+    this.showToast('Puesto cerrado correctamente');
+  };
+  yearGridRef = el => {
+    if (!el || el.dataset.centered) return;
+    const sel = this.state.calMonth ? +this.state.calMonth.split('-')[0] : +TODAY.slice(0, 4);
+    const idx = sel - (+TODAY.slice(0, 4) - 40);
+    el.dataset.centered = '1';
+    el.scrollTop = Math.max(0, Math.floor(idx / 4) * 40 - el.clientHeight / 2 + 20);
+  };
+  pickYear = y => this.setState(s => ({ calMonth: y + '-' + s.calMonth.split('-')[1], calYearPick: false }));
+  calStep = n => this.setState(s => {
+    const p = s.calMonth.split('-');
+    const d = new Date(+p[0], +p[1] - 1 + n, 1);
+    return { calMonth: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') };
+  });
+  calWrite(s, val) {
+    if (s.cal === 'inicio') return { form: Object.assign({}, s.form, { inicio: val }) };
+    if (s.cal === 'fin') return { form: Object.assign({}, s.form, { fin: val }) };
+    return { closeDate: val };
+  }
+  calApply = () => this.setState(s => Object.assign({ cal: null }, this.calWrite(s, s.calSel || '')));
+  calClear = () => this.setState(s => Object.assign({ cal: null, calSel: '' }, this.calWrite(s, '')));
+
+  openUser = target => this.setState(s => ({ userPick: s.userPick === target ? null : target, userQuery: '', cal: false }));
+  setUserQuery = ev => { const v = ev.target.value; this.setState({ userQuery: v }); };
+  pickUser = name => this.setState(s => {
+    const t = s.userPick;
+    if (t === 'jefe' || t === 'aprobador') return { userPick: null, form: Object.assign({}, s.form, { [t]: name }) };
+    const key = t === 'orgJefe' ? 'jefe' : 'aprobador';
+    return { userPick: null, orgForm: Object.assign({}, s.orgForm, { [key]: name }) };
+  });
+  clearUser = () => this.pickUser('');
+
+  renderVals() {
+    this.bindDocDown();
+    const s = this.state;
+    const list = this.sorted();
+    const actual = this.actualEntry();
+
+    const tab = on => 'height:32px;padding:0 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid ' +
+      (on ? '#496BE3' : '#DFE0E6') + ';background:' + (on ? '#F1F4FD' : '#fff') + ';color:' + (on ? '#2F3FC6' : '#636271');
+
+    const baseRows = list.map((e, i) => {
+      const fin = this.finOf(list, i);
+      return {
+        isRow: true,
+        isGap: false,
+        puesto: e.puesto,
+        inicio: fmt(e.inicio),
+        departamento: e.departamento,
+        jefe: e.jefe,
+        aprobador: e.aprobador,
+        jefeAvatar: avatarOf(e.jefe),
+        aprobadorAvatar: avatarOf(e.aprobador),
+        fin: fin ? fmt(fin) : '—',
+        finTip: s.finTip === e.id && !e.finFijo,
+        finishesSoon: !!(e.finFijo && fin && fin >= TODAY && actual && e.id === actual.id),
+        canClose: !!(actual && e.id === actual.id),
+        onClose: () => this.askClose(e.id),
+        onFinEnter: () => this.setState({ finTip: e.id }),
+        onFinLeave: () => this.setState({ finTip: null }),
+        isActual: actual ? e.id === actual.id : false,
+        isProximo: e.inicio > TODAY,
+        menuOpen: s.menuId === e.id,
+        onMenu: () => this.setMenu(e.id),
+        onEdit: () => this.openEdit(e.id),
+        onDelete: () => this.askDelete(e.id),
+        onDetail: () => this.setState({ drawer: 'detail', detailId: e.id, menuId: null })
+      };
+    });
+
+    const rows = [];
+    baseRows.forEach((r, i) => {
+      const older = list[i];
+      const newer = list[i - 1];
+      const finIso = this.finOf(list, i);
+      if (newer && finIso) {
+        const limite = minusDay(newer.inicio);
+        if (finIso < limite) {
+          const desde = plusDay(finIso);
+          rows.push({
+            isRow: false,
+            isGap: true,
+            gapDesde: fmt(desde),
+            gapHasta: fmt(limite),
+            gapDur: dur(monthsBetween(desde, newer.inicio))
+          });
+        }
+      }
+      rows.push(r);
+    });
+
+    const base = this.baseOrg();
+    const has = x => !!(x && x !== '—');
+    const vigente = Object.assign({}, base, {
+      jefe: has(base.jefe) ? base.jefe : '-',
+      aprobador: has(base.aprobador) ? base.aprobador : '-',
+      departamento: has(base.departamento) ? base.departamento : '-',
+      jefeHas: has(base.jefe),
+      aprobadorHas: has(base.aprobador),
+      jefeIni: ini(base.jefe), aprobadorIni: ini(base.aprobador),
+      jefeAvatar: avatarOf(base.jefe), aprobadorAvatar: avatarOf(base.aprobador)
+    });
+
+    const f = s.form || { puesto: '', inicio: '', departamento: '', jefe: '', aprobador: '', obs: '', tieneFin: false, fin: '' };
+    const isEdit = s.editId != null;
+    const o = s.orig;
+    const puestoChanged = isEdit && !!o && f.puesto !== o.puesto;
+    const changed = isEdit && !!o && (f.puesto !== o.puesto || f.inicio !== o.inicio || f.departamento !== o.departamento || f.jefe !== o.jefe || f.aprobador !== o.aprobador || f.tieneFin !== o.tieneFin || f.fin !== o.fin);
+    const editIsActual = isEdit && !!actual && actual.id === s.editId;
+
+    let alertTitle = '', alertBody = '';
+    if (isEdit && puestoChanged) {
+      alertTitle = '¿El usuario cambió de puesto o estás editando una carga errónea?';
+      alertBody = 'Si el colaborador cambió de puesto, corresponde crear uno nuevo. Si es una edición del puesto por una carga errónea, desestima esta advertencia.';
+    }
+
+    const det = s.detailId ? s.entries.find(e => e.id === s.detailId) : null;
+    const detIdx = det ? list.findIndex(e => e.id === det.id) : -1;
+    const detFin = det ? this.finOf(list, detIdx) : null;
+    const detail = det ? {
+      puesto: det.puesto,
+      periodo: 'Desde: ' + fmt(det.inicio) + (detFin ? ' • Hasta: ' + fmt(detFin) : ' • ' + dur(monthsBetween(det.inicio, TODAY))),
+      estado: det.inicio > TODAY ? 'Próximo' : (actual && det.id === actual.id ? 'Puesto actual' : 'Puesto anterior'),
+      departamento: det.departamento, jefe: det.jefe, aprobador: det.aprobador,
+      changes: [
+        { from: 'Juan Perez', to: det.jefe, tag: 'Cambio de Jefe', meta: 'Modificado: 23/10/2025 • Por: Victoria Pacin', obs: 're-estructuración del área' },
+        { from: 'Sin asignar', to: det.aprobador, tag: 'Cambio de Aprobador', meta: 'Modificado: 23/10/2025 • Por: Victoria Pacin', obs: 're-estructuración del área' },
+        { from: '23/10/23 a 23/10/24', to: '23/10/25 a ' + (detFin ? fmt(detFin) : 'vigente'), tag: 'Fecha del puesto', meta: 'Modificado: 23/10/2025 • Por: Victoria Pacin', obs: 're-estructuración del área' },
+        { from: 'Diseño', to: det.departamento, tag: 'Cambio de Departamento', meta: 'Modificado: 23/10/2025 • Por: Victoria Pacin', obs: 're-estructuración del área' }
+      ]
+    } : { puesto: '', periodo: '', estado: '', departamento: '', jefe: '', aprobador: '', changes: [] };
+
+    const delEntry = s.delId ? s.entries.find(e => e.id === s.delId) : null;
+    const delIsActual = !!(delEntry && actual && delEntry.id === actual.id);
+    const delRest = delEntry ? s.entries.filter(x => x.id !== delEntry.id) : [];
+    const delPrev = delRest.filter(x => x.inicio <= TODAY).sort((a, b) => (a.inicio < b.inicio ? 1 : -1))[0];
+    const delNext = delRest.filter(x => x.inicio > TODAY).sort((a, b) => (a.inicio > b.inicio ? 1 : -1))[0];
+    const delChoice = delIsActual;
+    const delOnly = delIsActual && !delPrev && !delNext;
+    const dm = s.delMode || 'gap';
+    const delIntro = delNext
+      ? 'Hay un puesto próximo (' + delNext.puesto + ', desde el ' + fmt(delNext.inicio) + '). Elegí qué hacer con el período que queda sin cubrir:'
+      : (delPrev
+          ? 'Al eliminar el puesto actual el colaborador queda sin puesto vigente. Elegí qué hacer:'
+          : 'Es el único puesto cargado. Elegí qué hacer con el puesto vigente del colaborador:');
+    const cm = s.calMonth || TODAY.slice(0, 7);
+    const cy = +cm.split('-')[0], cmo = +cm.split('-')[1];
+    const calLabel = MONTHS[cmo - 1] + ' ' + cy;
+    const nowY = +TODAY.slice(0, 4);
+    const calYears = [];
+    for (let y = nowY - 40; y <= nowY + 10; y++) {
+      calYears.push({
+        label: String(y),
+        onClick: () => this.pickYear(y),
+        style: 'height:36px;border:none;border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;font-weight:' +
+          (y === cy ? '700' : '400') + ';background:' + (y === cy ? '#496BE3' : 'transparent') +
+          ';color:' + (y === cy ? '#fff' : (y === nowY ? '#2F3FC6' : '#303036'))
+      });
+    }
+    const pad = n => String(n).padStart(2, '0');
+    const firstDow = new Date(cy, cmo - 1, 1).getDay();
+    const daysIn = new Date(cy, cmo, 0).getDate();
+    const calCells = [];
+    for (let i = 0; i < firstDow; i++) calCells.push({ label: '', style: 'height:40px;border:none;background:transparent;visibility:hidden', onClick: undefined });
+    for (let d = 1; d <= daysIn; d++) {
+      const iso = cy + '-' + pad(cmo) + '-' + pad(d);
+      const sel = s.calSel === iso;
+      const isToday = iso === TODAY;
+      calCells.push({
+        label: String(d),
+        style: 'height:40px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:1px solid ' +
+          (sel ? '#496BE3' : (isToday ? '#C9D6F7' : 'transparent')) + ';background:' + (sel ? '#496BE3' : 'transparent') +
+          ';color:' + (sel ? '#fff' : '#2F3FC6'),
+        onClick: () => this.setState(st => Object.assign({ calSel: iso, cal: null }, this.calWrite(st, iso)))
+      });
+    }
+    const closeEntry = s.closeId ? s.entries.find(e => e.id === s.closeId) : null;
+    const cmode = s.closeMode || 'hoy';
+    const closeList = this.sorted();
+    const closeIdx = closeEntry ? closeList.findIndex(x => x.id === closeEntry.id) : -1;
+    const closeNext = closeIdx > 0 ? closeList[closeIdx - 1] : null;
+    const closeChosen = cmode === 'fecha' ? s.closeDate : TODAY;
+    let closeWarn = '';
+    if (closeEntry && closeChosen) {
+      if (closeChosen <= closeEntry.inicio) closeWarn = 'La fecha de cierre debe ser posterior al inicio del puesto (' + fmt(closeEntry.inicio) + ').';
+      else if (closeNext && minusDay(closeNext.inicio) < closeChosen) closeWarn = '“' + closeNext.puesto + '” inicia el ' + fmt(closeNext.inicio) + ', así que el puesto se va a cerrar el ' + fmt(minusDay(closeNext.inicio)) + '.';
+      else if (closeChosen > TODAY) closeWarn = 'El puesto sigue vigente hasta el ' + fmt(closeChosen) + '. Desde esa fecha, el colaborador queda sin puesto vigente.';
+    }
+    let sinPuestoDesde = null;
+    if (!actual) {
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].inicio > TODAY) continue;
+        const fp = this.finOf(list, i);
+        if (fp) sinPuestoDesde = fp;
+        break;
+      }
+    }
+    const q = (s.userQuery || '').trim().toLowerCase();
+    const userResults = PEOPLE.filter(p => !q || p.name.toLowerCase().includes(q) || p.email.toLowerCase().includes(q))
+      .map(p => ({ name: p.name, email: p.email, avatar: avatarOf(p.name), onClick: () => this.pickUser(p.name) }));
+
+    const og = s.orgForm || {};
+    const oo = s.orgOrig;
+    const orgChanged = !!oo && (og.departamento !== oo.departamento || og.jefe !== oo.jefe || og.aprobador !== oo.aprobador);
+    const optStyle = on => 'display:flex;gap:12px;padding:14px 16px;border-radius:8px;cursor:pointer;text-align:left;background:' +
+      (on ? '#F1F4FD' : '#fff') + ';border:1px solid ' + (on ? '#496BE3' : '#E1E1EB');
+
+    return {
+      tabFullStyle: tab(s.view === 'full'),
+      tabEmptyStyle: tab(s.view === 'empty'),
+      goFull: this.goFull,
+      goEmpty: this.goEmpty,
+
+      headerSubtitle: actual
+        ? actual.puesto + ' | ' + actual.departamento
+        : (has(base.departamento) ? 'Sin puesto asignado | ' + base.departamento : 'Sin puesto asignado'),
+      hasActual: !!actual,
+      noPuesto: !actual,
+      noPuestoLabel: sinPuestoDesde ? 'Sin puesto vigente desde el ' + fmt(sinPuestoDesde) : 'Sin puesto vigente',
+      puestoActual: actual ? actual.puesto : '',
+      puestoDesde: actual ? fmt(actual.inicio) : '',
+      antiguedadPuesto: actual ? dur(monthsBetween(actual.inicio, TODAY)) : '',
+
+      vigente: vigente,
+
+      rows: rows,
+      hasRows: rows.length > 0,
+      isEmpty: rows.length === 0,
+      notice: s.notice,
+      toast: s.toast,
+      closeToast: this.closeToast,
+      openAddDrawer: this.openAddDrawer,
+      openOrgDrawer: this.openOrgDrawer,
+      closeAll: this.closeAll,
+
+      overlayOpen: !!s.drawer || s.del || !!s.closeAsk,
+      showForm: s.drawer === 'add' || s.drawer === 'edit',
+      showOrg: s.drawer === 'org',
+      showDetail: s.drawer === 'detail',
+      isAdd: !isEdit,
+      formTitle: isEdit ? 'Editar Puesto' : 'Agregar Puesto',
+      saveLabel: isEdit ? 'Guardar' : 'Agregar',
+      form: f,
+      errPuesto: s.submitted && !f.puesto,
+      errInicio: s.submitted && !f.inicio,
+      puestoFieldStyle: fieldStyle(s.submitted && !f.puesto),
+      inicioFieldStyle: selectStyle(s.submitted && !f.inicio, !f.inicio),
+      inicioLabel: f.inicio ? fmt(f.inicio) : 'dd/mm/aaaa',
+      orgInherited: !!base.inherited,
+      closeMenus: () => this.setState({ menuId: null, cal: null, userPick: null }),
+      openCal: this.openCal,
+      openCalFin: this.openCalFin,
+      openCalClose: this.openCalClose,
+      calOpen: s.cal === 'inicio',
+      calOpenFin: s.cal === 'fin',
+      calOpenClose: s.cal === 'close',
+      showAutoHint: !f.tieneFin,
+      toggleTieneFin: () => this.setState(st => ({ form: Object.assign({}, st.form, { tieneFin: !st.form.tieneFin, fin: st.form.tieneFin ? '' : st.form.fin }), cal: null })),
+      checkBoxStyle: 'width:20px;height:20px;flex:none;border-radius:5px;display:flex;align-items:center;justify-content:center;border:1px solid ' +
+        (f.tieneFin ? '#496BE3' : '#C4C4D0') + ';background:' + (f.tieneFin ? '#496BE3' : '#fff'),
+      finLabel: f.fin ? fmt(f.fin) : 'dd/mm/aaaa',
+      finFieldStyle: selectStyle(s.submitted && f.tieneFin && (!f.fin || f.fin <= f.inicio), !f.fin),
+      errFin: !!(s.submitted && f.tieneFin && (!f.fin || (f.inicio && f.fin <= f.inicio))),
+      errFinMsg: f.fin ? 'La fecha de fin debe ser posterior a la de inicio.' : 'Ingresá la fecha de fin del puesto.',
+
+      showClose: !!s.closeAsk,
+      closePuesto: closeEntry ? closeEntry.puesto : '',
+      todayLabel: fmt(TODAY),
+      closeDateLabel: s.closeDate ? fmt(s.closeDate) : 'dd/mm/aaaa',
+      closeFieldStyle: selectStyle(false, !s.closeDate),
+      closeTodayStyle: optStyle(cmode === 'hoy'),
+      closeDateStyle: optStyle(cmode === 'fecha'),
+      radCloseToday: cmode === 'hoy',
+      radCloseDate: cmode === 'fecha',
+      pickCloseToday: () => this.setState({ closeMode: 'hoy', cal: null }),
+      pickCloseDate: () => this.setState({ closeMode: 'fecha' }),
+      closeWarn: closeWarn,
+      confirmClose: this.confirmClose,
+      calMonthLabel: calLabel,
+      calCells: calCells,
+      calDaysView: !s.calYearPick,
+      calYearView: !!s.calYearPick,
+      calYears: calYears,
+      calPopStyle: this.calPopStyle(),
+      yearGridRef: this.yearGridRef,
+      toggleYearPick: () => this.setState(st => ({ calYearPick: !st.calYearPick })),
+      calLabelStyle: 'flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:32px;border:none;background:transparent;font-family:inherit;font-size:16px;font-weight:700;color:#1D204E;cursor:pointer;border-radius:8px',
+      calLabelIcon: s.calYearPick ? 'ti ti-chevron-up' : 'ti ti-chevron-down',
+      calPrev: () => this.calStep(-1),
+      calNext: () => this.calStep(1),
+      calApply: this.calApply,
+      calClear: this.calClear,
+      jefeLabel: f.jefe || 'Sin asignar',
+      aprobadorLabel: f.aprobador || 'Sin asignar',
+      jefeFieldStyle: selectStyle(false, !f.jefe),
+      aprobadorFieldStyle: selectStyle(false, !f.aprobador),
+      orgJefeLabel: og.jefe || 'Sin asignar',
+      orgAprobadorLabel: og.aprobador || 'Sin asignar',
+      orgJefeFieldStyle: selectStyle(false, !og.jefe),
+      orgAprobadorFieldStyle: selectStyle(false, !og.aprobador),
+      userOpenJefe: s.userPick === 'jefe',
+      userOpenAprobador: s.userPick === 'aprobador',
+      userOpenOrgJefe: s.userPick === 'orgJefe',
+      userOpenOrgAprobador: s.userPick === 'orgAprobador',
+      openUserJefe: () => this.openUser('jefe'),
+      openUserAprobador: () => this.openUser('aprobador'),
+      openUserOrgJefe: () => this.openUser('orgJefe'),
+      openUserOrgAprobador: () => this.openUser('orgAprobador'),
+      userQuery: s.userQuery || '',
+      setUserQuery: this.setUserQuery,
+      userResults: userResults,
+      clearUser: this.clearUser,
+      showObs: isEdit && changed,
+      obsCount: (f.obs || '').length,
+      formAlert: !!alertTitle,
+      formAlertTitle: alertTitle,
+      formAlertBody: alertBody,
+      setPuesto: this.field('puesto'),
+      setInicio: this.field('inicio'),
+      setDepto: this.field('departamento'),
+      setJefe: this.field('jefe'),
+      setAprobador: this.field('aprobador'),
+      setObs: this.field('obs'),
+      saveForm: this.saveForm,
+
+      orgForm: s.orgForm || { departamento: '', jefe: '', aprobador: '', obs: '' },
+      showOrgObs: orgChanged,
+      orgObsCount: (og.obs || '').length,
+      setOrgObs: this.orgField('obs'),
+      setOrgDepto: this.orgField('departamento'),
+      setOrgJefe: this.orgField('jefe'),
+      setOrgAprobador: this.orgField('aprobador'),
+      saveOrg: this.saveOrg,
+
+      detail: detail,
+
+      showDelete: s.del,
+      headFinTip: !!s.headFinTip,
+      onHeadFinEnter: () => this.setState({ headFinTip: true }),
+      onHeadFinLeave: () => this.setState({ headFinTip: false }),
+      deleteIsActual: delIsActual,
+      delIsActual: delIsActual,
+      delChoice: delChoice,
+      delSimpleWarning: delIsActual && !delChoice,
+      delNextPuesto: delNext ? delNext.puesto : '',
+      delNextInicio: delNext ? fmt(delNext.inicio) : '',
+      delPrevPuesto: delPrev ? delPrev.puesto : '',
+      delPrevDisabled: !delPrev,
+      delIntro: delIntro,
+      optShowExtend: !!delPrev,
+      optShowAdvance: !!delNext,
+      optShowNew: delOnly,
+      optExtendDesc: delNext
+        ? 'Vuelve a ser el puesto vigente y su fecha de fin se recalcula con el inicio del puesto próximo.'
+        : 'Vuelve a ser el puesto vigente, sin fecha de fin.',
+      optGapDesc: delPrev
+        ? 'El puesto anterior queda cerrado con su fecha original y el período se muestra en el historial como “Sin puesto asignado”.'
+        : 'El colaborador queda sin puesto asignado en la organización.',
+      optGapStyle: optStyle(dm === 'gap'),
+      optExtendStyle: optStyle(dm === 'extend'),
+      optAdvanceStyle: optStyle(dm === 'advance'),
+      optNewStyle: optStyle(dm === 'new'),
+      radGap: dm === 'gap',
+      radExtend: dm === 'extend',
+      radAdvance: dm === 'advance',
+      radNew: dm === 'new',
+      pickGap: () => this.setDelMode('gap'),
+      pickExtend: () => this.setDelMode('extend'),
+      pickAdvance: () => this.setDelMode('advance'),
+      pickNew: () => this.setDelMode('new'),
+      confirmDelete: this.confirmDelete
+    };
+  }
+}
+
+</script>
+</body>
+</html>
